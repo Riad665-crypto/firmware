@@ -13,8 +13,9 @@ static const uint8_t RX = 44;
 static const uint8_t TXD2 = 1;
 static const uint8_t RXD2 = 2;
 
-static const uint8_t SDA = 13;
-static const uint8_t SCL = 15;
+// I2C moved away from the button pins
+static const uint8_t SDA = 8;
+static const uint8_t SCL = 9;
 
 // Modified elsewhere
 static const uint8_t SS = -1;
@@ -64,6 +65,12 @@ static const uint8_t ADC2 = 8;
 #define BAD_TX GROVE_SDA
 #define BAD_RX GROVE_SCL
 
+// ---------------- Buttons (wire GPIO <-> GND, internal pull-up) ----------------
+#define UP_BTN 15   // Prev / Up
+#define DW_BTN 14   // Next / Down
+#define SEL_BTN 16  // Select / OK
+#define ESC_BTN 17  // Back
+
 #define HAS_BTN 0
 #define BTN_ALIAS "\"Ok\""
 #define BTN_PIN 0
@@ -94,33 +101,37 @@ static const uint8_t ADC2 = 8;
 #define FM 2
 #define FG 3
 
+// ---------------- Display: 2.0" ST7789 240x320 ----------------
 #define HAS_SCREEN 1
 #define ROTATION 1
 #define MINBRIGHT 160
 
 #define USER_SETUP_LOADED 1
-#define USE_HSPI_PORT 1
-#define ST7789_2_DRIVER 1
-#define TFT_RGB_ORDER 1
-#define TFT_WIDTH 135
-#define TFT_HEIGHT 240
+#define ST7789_DRIVER 1
+#define TFT_RGB_ORDER 1  // if red/blue are swapped, change to 0
+// If colors look inverted (negative), uncomment the next line:
+// #define TFT_INVERSION_ON
+#define TFT_WIDTH 240
+#define TFT_HEIGHT 320
 #define TFT_BACKLIGHT_ON 1
 #define TFT_BL 38
-#define TFT_RST 33
-#define TFT_DC 34
-#define TFT_MOSI 35
-#define TFT_SCLK 36
-#define TFT_CS 37
+#define TFT_RST 5
+#define TFT_DC 7
+#define TFT_MOSI 11
+#define TFT_SCLK 12
+#define TFT_CS 10
+#define TFT_MISO 13
 #define TOUCH_CS -1
 #define SMOOTH_FONT 1
-#define SPI_FREQUENCY 20000000
+#define SPI_FREQUENCY 40000000
 #define SPI_READ_FREQUENCY 20000000
 #define SPI_TOUCH_FREQUENCY 2500000
 
-#define SDCARD_CS 12
-#define SDCARD_SCK 40
-#define SDCARD_MISO 39
-#define SDCARD_MOSI 14
+// SD card pins moved to unused GPIOs so they never touch the buttons (no SD on this board)
+#define SDCARD_CS 47
+#define SDCARD_SCK 48
+#define SDCARD_MISO 41
+#define SDCARD_MOSI 42
 
 #define GROVE_SDA 2
 #define GROVE_SCL 1

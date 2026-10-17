@@ -6,14 +6,23 @@
 ** Location: main.cpp
 ** Description:   initial setup for the device
 ***************************************************************************************/
-void _setup_gpio() {}
+void _setup_gpio() {
+    pinMode(UP_BTN, INPUT_PULLUP);
+    pinMode(DW_BTN, INPUT_PULLUP);
+    pinMode(SEL_BTN, INPUT_PULLUP);
+    pinMode(ESC_BTN, INPUT_PULLUP);
+}
 
 /***************************************************************************************
 ** Function name: _post_setup_gpio()
 ** Location: main.cpp
 ** Description:   second stage gpio setup to make a few functions work
 ***************************************************************************************/
-void _post_setup_gpio() {}
+void _post_setup_gpio() {
+    // Backlight on (the TFT library may not drive it on this board)
+    pinMode(TFT_BL, OUTPUT);
+    digitalWrite(TFT_BL, HIGH);
+}
 
 /***************************************************************************************
 ** Function name: getBattery()
@@ -27,7 +36,10 @@ int getBattery() { return 0; }
 ** location: settings.cpp
 ** set brightness value
 **********************************************************************/
-void _setBrightness(uint8_t brightval) {}
+void _setBrightness(uint8_t brightval) {
+    // simple on/off backlight (0..255 -> PWM)
+    analogWrite(TFT_BL, brightval);
+}
 
 /*********************************************************************
 ** Function: InputHandler
@@ -41,18 +53,26 @@ void InputHandler(void) {
     AnyKeyPress = false;
     EscPress = false;
 
-    if (false /*Conditions fot all inputs*/) {
+    bool up = digitalRead(UP_BTN) == BTN_ACT;
+    bool down = digitalRead(DW_BTN) == BTN_ACT;
+    bool sel = digitalRead(SEL_BTN) == BTN_ACT;
+    bool esc = digitalRead(ESC_BTN) == BTN_ACT;
+    bool any = up || down || sel || esc;
+
+    if (any) {
         if (!wakeUpScreen()) AnyKeyPress = true;
         else goto END;
     }
-    if (false /*Conditions for previous btn*/) { PrevPress = true; }
-    if (false /*Conditions for Next btn*/) { NextPress = true; }
-    if (false /*Conditions for Esc btn*/) { EscPress = true; }
-    if (false /*Conditions for Select btn*/) { SelPress = true; }
+    if (up) { PrevPress = true; }
+    if (down) { NextPress = true; }
+    if (esc) { EscPress = true; }
+    if (sel) { SelPress = true; }
 END:
     if (AnyKeyPress) {
         long tmp = millis();
-        while ((millis() - tmp) < 200 && false /*Conditions fot all inputs*/);
+        while ((millis() - tmp) < 200 &&
+               (digitalRead(UP_BTN) == BTN_ACT || digitalRead(DW_BTN) == BTN_ACT ||
+                digitalRead(SEL_BTN) == BTN_ACT || digitalRead(ESC_BTN) == BTN_ACT));
     }
 }
 
@@ -61,7 +81,7 @@ END:
 ** location: mykeyboard.cpp
 ** Starts keyboard to type data
 **********************************************************************/
-String keyboard(String mytext, int maxSize, String msg) {}
+String keyboard(String mytext, int maxSize, String msg) { return mytext; }
 
 /*********************************************************************
 ** Function: powerOff
