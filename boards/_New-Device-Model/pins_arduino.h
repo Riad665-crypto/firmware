@@ -97,9 +97,8 @@ static const uint8_t ADC2 = 8;
 #define NRF24_SCK_PIN SPI_SCK_PIN
 #define NRF24_MISO_PIN SPI_MISO_PIN
 
-#define FP 1
-#define FM 2
-#define FG 3
+// FP / FM / FG (text sizes) are defined in the .ini via build_src_flags,
+// so they only apply to Bruce's own code and never break third-party libraries.
 
 // ---------------- Display: 2.0" ST7789 240x320 ----------------
 #define HAS_SCREEN 1
