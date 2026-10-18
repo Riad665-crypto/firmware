@@ -77,13 +77,6 @@ END:
 }
 
 /*********************************************************************
-** Function: keyboard
-** location: mykeyboard.cpp
-** Starts keyboard to type data
-**********************************************************************/
-String keyboard(String mytext, int maxSize, String msg) { return mytext; }
-
-/*********************************************************************
 ** Function: powerOff
 ** location: mykeyboard.cpp
 ** Turns off the device (or try to)
